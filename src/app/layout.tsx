@@ -155,8 +155,8 @@ export default function RootLayout({
           <main className="flex-grow">
           {React.isValidElement(children) 
             ? React.cloneElement(children as React.ReactElement<{activeTab: string, setActiveTab: React.Dispatch<React.SetStateAction<string>>}>, { 
-                activeTab: activeTab, 
-                setActiveTab: setActiveTab 
+                activeTab, 
+                setActiveTab 
               }) 
             : children}
         </main>

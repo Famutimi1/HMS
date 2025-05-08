@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
+import { 
   faHospital,
   faBell,
   faChartLine,
@@ -72,23 +72,9 @@ interface PatientForm {
   emergencyContact: string;
   emergencyPhone: string;
 }
-;
 
-interface Props {
-  activeTab?: string;
-  setActiveTab?: (tab: string) => void;
-}
-
-const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
-  console.log('Active tab:', activeTab);
-  
-  // Ensure setActiveTab is defined
-  const handleTabChange = (tab: string) => {
-    if (setActiveTab) {
-      setActiveTab(tab);
-    }
-  };
-
+const Home = () => {
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedBillingTab, setSelectedBillingTab] = useState('generate');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -107,7 +93,7 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
     email: '',
     profilePhoto: null
   });
-
+  
   const handleDoctorFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewDoctorForm(prev => ({
@@ -279,7 +265,7 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
     if (!operationForm.patientId.trim()) errors.patientId = 'Patient is required';
     if (!operationForm.operationType.trim()) errors.operationType = 'Operation type is required';
     if (!operationForm.date) errors.date = 'Date is required';
-    if (!operationForm.time) errors.time = 'Time is required';
+    if (!operationForm.time) errors.time = 'Time is required'; 
     if (!operationForm.surgeon) errors.surgeon = 'Surgeon is required';
     if (!operationForm.anesthesiologist) errors.anesthesiologist = 'Anesthesiologist is required';
     if (!operationForm.otRoom) errors.otRoom = 'Operation theater is required';
@@ -325,7 +311,7 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
     emergencyContact: '',
     emergencyPhone: ''
   });
-  const handlePatientFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handlePatientFormChange = (e: React.ChangeEvent<HTMLInputElement |HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewPatientForm(prev => ({
       ...prev,
@@ -539,13 +525,117 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
     '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM',
     '04:00 PM', '04:30 PM'
   ];
-  console.log(activeTab);
   return (
     <div className="min-h-screen bg-gray-50">
-
+      {/* Header */}
+      <header className="bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faHospital} className="text-2xl text-blue-600 mr-2" />
+            <h1 className="text-xl font-bold text-gray-800">MediCare Hospital</h1>
+          </div>
+          <div className="flex items-center space-x-4">
+            <button className="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 cursor-pointer">
+              <FontAwesomeIcon icon={faBell} className="mr-2 text-blue-600" />
+              Notifications
+            </button>
+            <div className="flex items-center">
+              <img
+                src="https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20a%20hospital%20administrator%2C%20business%20attire%2C%20confident%20pose%2C%20neutral%20background%2C%20high%20quality%20professional%20headshot&width=40&height=40&seq=6&orientation=squarish"
+                alt="Admin"
+                className="h-8 w-8 rounded-full object-cover"
+              />
+              <span className="ml-2 text-sm font-medium text-gray-700">Admin</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      {/* Navigation */}
+      <nav className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-12">
+            <div className="flex space-x-8">
+              <button
+                onClick={() => setActiveTab('dashboard')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'dashboard' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <FontAwesomeIcon icon={faChartLine} className="mr-2" />
+                Dashboard
+              </button>
+              <button
+                onClick={() => setActiveTab('appointments')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'appointments' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <FontAwesomeIcon icon={faCalendarCheck} className="mr-2" />
+                Appointments
+              </button>
+              <button
+                onClick={() => setActiveTab('doctors')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'doctors' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <FontAwesomeIcon icon={faUserMd} className="mr-2" />
+                Doctors
+              </button>
+              <button
+                onClick={() => setActiveTab('patients')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'patients' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <FontAwesomeIcon icon={faProcedures} className="mr-2" />
+                Patients
+              </button>
+              <button
+                onClick={() => setActiveTab('billing')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'billing' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <FontAwesomeIcon icon={faFileInvoiceDollar} className="mr-2" />
+                Billing
+              </button>
+              <button
+                onClick={() => setActiveTab('laboratory')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'laboratory' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <FontAwesomeIcon icon={faFlask} className="mr-2" />
+                Laboratory
+              </button>
+              <button
+                onClick={() => setActiveTab('operation')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'operation' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <FontAwesomeIcon icon={faHospitalSymbol} className="mr-2" />
+                Operation
+              </button>
+              <button
+                onClick={() => setActiveTab('consultation')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'consultation' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <i className="fas fa-stethoscope mr-2"></i>
+                Consultation
+              </button>
+              <button
+                onClick={() => setActiveTab('pharmacy')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'pharmacy' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <i className="fas fa-pills mr-2"></i>
+                Pharmacy
+              </button>
+              <button
+                onClick={() => setActiveTab('discharge')}
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'discharge' ? 'border-blue-600 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} cursor-pointer`}
+              >
+                <i className="fas fa-door-open mr-2"></i>
+                Discharge
+              </button>
+            </div>
+            <div className="flex items-center">
+              <button className="ml-4 px-4 py-1 rounded-full text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 !rounded-button whitespace-nowrap cursor-pointer">
+                <i className="fas fa-plus mr-2"></i>
+                New Patient
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
       {/* Main Content */}
-      
-      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Dashboard */}
         {activeTab === 'dashboard' && (
@@ -1849,7 +1939,7 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
                               id="patientSearch"
                               name="patientSearch"
                               value={billFormData.patientSearch}
-                              onChange={(e) => handleBillInputChange(e, index)}
+                              onChange={(e) => handleBillInputChange(e,index)}
                               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                               placeholder="Enter patient name or ID..."
                             />
@@ -1982,8 +2072,8 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
                   <button
                     onClick={() => setSelectedBillingTab('generate')}
                     className={`w-1/4 py-4 px-6 text-center border-b-2 font-medium text-sm ${selectedBillingTab === 'generate'
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                       }`}
                   >
                     <i className="fas fa-file-invoice mr-2"></i>
@@ -1992,8 +2082,8 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
                   <button
                     onClick={() => setSelectedBillingTab('payments')}
                     className={`w-1/4 py-4 px-6 text-center border-b-2 font-medium text-sm ${selectedBillingTab === 'payments'
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                       }`}
                   >
                     <i className="fas fa-credit-card mr-2"></i>
@@ -2002,8 +2092,8 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
                   <button
                     onClick={() => setSelectedBillingTab('insurance')}
                     className={`w-1/4 py-4 px-6 text-center border-b-2 font-medium text-sm ${selectedBillingTab === 'insurance'
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                       }`}
                   >
                     <i className="fas fa-shield-alt mr-2"></i>
@@ -2012,8 +2102,8 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
                   <button
                     onClick={() => setSelectedBillingTab('reports')}
                     className={`w-1/4 py-4 px-6 text-center border-b-2 font-medium text-sm ${selectedBillingTab === 'reports'
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                       }`}
                   >
                     <i className="fas fa-chart-bar mr-2"></i>
@@ -2682,8 +2772,8 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
                                     <button
                                       onClick={() => setSelectedConsultationPatient(patient)}
                                       className={`px-3 py-1 rounded-md text-sm font-medium ${selectedConsultationPatient?.id === patient.id
-                                        ? 'bg-blue-100 text-blue-700'
-                                        : 'text-blue-600 hover:text-blue-900'
+                                          ? 'bg-blue-100 text-blue-700'
+                                          : 'text-blue-600 hover:text-blue-900'
                                         } !rounded-button whitespace-nowrap cursor-pointer`}>
                                       Select
                                     </button>
@@ -2715,8 +2805,8 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
                             }}
                             disabled={!selectedConsultationPatient}
                             className={`px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 !rounded-button whitespace-nowrap cursor-pointer ${selectedConsultationPatient
-                              ? 'bg-blue-600 text-white hover:bg-blue-700'
-                              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                               }`}>
                             Start Consultation
                           </button>
@@ -3035,8 +3125,8 @@ const Home = ({ activeTab = 'dashboard', setActiveTab }: Props) => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${prescriptionStatus === 'pending'
-                                ? 'bg-yellow-100 text-yellow-800'
-                                : 'bg-green-100 text-green-800'
+                                  ? 'bg-yellow-100 text-yellow-800'
+                                  : 'bg-green-100 text-green-800'
                                 }`}>
                                 {prescriptionStatus === 'pending' ? 'Pending' : 'Fulfilled'}
                               </span>
